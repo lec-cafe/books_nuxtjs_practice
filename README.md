@@ -1,8 +1,8 @@
-## Laravel REST API 開発 入門
+## Nuxt.js による SPA 開発 実践編
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/65e21c31-069f-4d86-9a58-00d48df0b898/deploy-status)](https://app.netlify.com/sites/books-laravelapi-basic/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/eeb8e99b-eedd-4e40-b3c4-c53c42cb53fd/deploy-status)](https://app.netlify.com/sites/books-nuxtjs-practice/deploys)
 
-https://laravelapi-basic.lec.cafe/
+https://nuxtjs-practice.lec.cafe/
 
 ## Usage
 
