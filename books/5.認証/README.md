@@ -36,29 +36,43 @@ modules.export = {
 
 ::: tip
 `auth-module` 利用時には  Vuex Store を有効化する必要があります。
-まだ store フォルダに何も格納していない場合は、 `store/index.js` を作成して Vuex の機能を有効化してください。
+まだ store フォルダに何も格納していない場合は、 `store/index.js` などを作成して Vuex の機能を有効化してください。
 :::
-
-## Auth Modulesの設定
 
 Auth Modules を利用する上で必要な設定は以下の２つです。
 
-- ログイン関連処理時にリダイレクトするルート
-- ログイン関連処理時に発行するAPI URL (`Strategies`)
+- 認証関連のルート設定
+- 認証処理を行うための通信設定
 
-### ルートの設定
+順にその内容を確認していきましょう。
 
-Auth Module で認証ルートを作成する場合、ミドルウェアを用います。
+## 認証関連のルート設定
 
-ルートごとに、以下のような形でミドルウェアを指定して認証ルートを設定する事ができます。
+SPA におけるそれぞれのルートについて、ユーザの認証状態に応じた表示非表示の制御を行うことができます。
+
+Auth Module で認証ユーザ向けのルートを作成する場合、ミドルウェアを用いるのが便利です。
+
+それぞれの ページコンポーネントで以下のようなにミドルウェアの指定を行い、
+認証ルートで有ることを明示することができます。
 
 ```js
 export default {
-  middleware: 'auth'
+  middleware: 'auth',
+  data(){
+      return {
+          //...
+      }
+  },
+  mounted(){
+      //...
+  }  
 }
 ```
 
-また `nuxt.config.js` に以下のような指定を行い、アプリケーション全体を認証ルートとする事ができます。
+それぞれのページコンポーネントにミドルウェアを設定するのが面倒で、
+アプリケーション全体を 認証ユーザ向けルートとする場合は、
+`nuxt.config.js` に以下のような指定を行い、
+アプリケーション全体にミドルウェアを適用します。
 
 ```js
 router: {
@@ -66,16 +80,25 @@ router: {
 }
 ```
 
-グローバルに認証ルートを設定した場合、非認証ルートでは `auth: false` を設定することで、
-特定のルートを 認証ルートから除外することもできます。
+上記の設定を行った場合、個別のページコンポーネントで `auth: false` を設定し、
+非認証ユーザ向けのルートを作成することも可能です。
 
 ```js
 export default {
-  auth: false
+  auth: false,
+  data(){
+      return {
+          //...
+      }
+  },
+  mounted(){
+      //...
+  }  
 }
 ```
 
-認証ルートを中心に、 Auth Module のリダイレクト挙動を設定できます。
+また、認証ユーザ向けルートに、非認証ユーザがアクセスした際の挙動なども、
+`nuxt.config.js` に`auth` を追加して定義することが可能です。
 
 ```js
 modules.export = {
@@ -95,16 +118,16 @@ modules.export = {
 - `callback` はOauth認証等で必要となる コールバックルートです。
 - `home` はログイン後のリダイレクトURLです。
 
-### `Strategies` の設定
+## 認証処理を行うための通信設定
 
-ログイン関連処理時に発行する API URLの設定 等を取りまとめたものを Auth Modules では 
-`Strategies` と呼びます。
+実際の API コール等を用いてユーザのログイン認証を行う処理を、
+Auth Modules では `Strategies`  と呼びます。
 
-Github や Facebook / Google などの Oauth を使った認証では、
-デフォルトで `Strategies` の設定パターンが用意されているため、
-サービスから提供される client_id 等の情報のみで設定は完了します。
+Auth Modules では、いくつかの組み込み `Strategies` が用意されており、
+Github や Facebook / Google などの Oauth を使った認証を簡単に実装することが可能な用になっています。
 
-Githubの例:
+例えば Github認証のアプリケーションを用意する場合、
+`nuxt.config.js` の `auth` セクションに以下のような設定を追記します。
 
 ```js
 modules.export = {
@@ -119,11 +142,12 @@ modules.export = {
 }
 ```
 
-Github の client_id や client_secret は以下のURLから取得可能です。
+以下のURL から取得した、
+Github の client_id や client_secret を埋め込み、認証処理の設定は完了です。
 
 https://github.com/settings/developers
 
-これらの認証情報は JSのソースとしてアプリケーションに組み込まれる点には注意が必要です。
+### local storategy
 
 任意のスクラッチで用意した認証APIを利用する場合には `local` の strategies が利用可能です。
 
@@ -171,8 +195,6 @@ Auth Module は内部でAPIを発行する際に、自動的にレスポンス�
 トークンは `Bearer` 方式で各API のヘッダに自動的に付与されるため、
 アプリケーション内部の `$axios` 全てで、認証を意識せずAPIリクエストを送出することができます。
 
-
-
 ## Auth Modulesを用いたログイン処理
 
 Auth Module の設定が終わったら実際にログインの処理を実行してみましょう。
@@ -181,13 +203,22 @@ Auth Module では各種ログイン関連処理を`$auth` 経由で実行する
 ログインについては、 `$auth.loginWith()` 関数が用意されています。
 
 ```js
+const { data } = await this.$auth.loginWith('github')
+```
+
+`$auth.loginWith()` は 第一引数で指定した strategies を利用して、ログイン処理を実行します。
+
+それぞれの ログイン処理は strategies の実装に依存するため、
+`local` storategy の場合には以下のような形で第二引数に認証情報を 渡します。
+
+```js
 const { data } = await this.$auth.loginWith('local', {...opt})
 ```
 
-`$auth.loginWith()` は 第一引数で指定した strategies を利用して,ログイン処理を実行します。
-それぞれの ログイン処理は strategies の実装に依存しますが、
 `local` の場合、`$axios` を利用した API コールが行われ Promise が return されます。
 フォーム等経由で取得されるログイン情報は axios の Config 形式で第二引数に渡すことが可能です。
+
+### ログイン後のユーザ情報取得
 
 ログイン後のユーザ情報は `this.$auth.user` 経由で取得可能です。
 
