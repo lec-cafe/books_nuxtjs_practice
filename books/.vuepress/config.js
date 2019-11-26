@@ -1,6 +1,6 @@
 module.exports = {
-    title: 'Laravel REST API 開発 入門',
-    description: 'HTML/CSS を使った Web 制作技術について、現場で使えるテクニックを紹介します。',
+    title: 'Nuxt.js による SPA 開発 実践編',
+    description: 'Vue.js 製のフロント制作フレームワーク Nuxt.js で SPA を構築する際の実践的手法を紹介します。',
     head: [
         ['script', { src: "https://static.codepen.io/assets/embed/ei.js"}]
     ],
@@ -43,7 +43,7 @@ module.exports = {
             ]
           },
         ],
-        repo: 'lec-cafe/book_laravel_api',
+        repo: 'lec-cafe/books_nuxtjs_practice',
         repoLabel: 'Github',
         docsDir: 'books',
         editLinks: true,
