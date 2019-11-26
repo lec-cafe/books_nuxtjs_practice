@@ -122,25 +122,55 @@ axios モジュールの詳細な使いかたについては [こちら](/9.2.ax
 
 
 例えば、 Issue の詳細 API は、`GET` メソドで、`/repos/:owner/:repo/issues/:issue_number` のURL形式を取るため、
+Issue 詳細画面の `pages/issue/_id/index.vue` に以下のような形で mounted を記述します。
 
 ```js
 export default {
   async mounted(){
-    const url = "/repos/lec-cafe/books_nuxtjs_practice/issues"
+    const number = this.$route.params.id
+    const url = `/repos/lec-cafe/books_nuxtjs_practice/issues/${number}`
     const {data} = await this.$axios.get(url, {
       headers: {
         Authorization: "token YOUR_GITHUB_PRESONAL_ACCESS_TOKEN"
       }
     })
     console.log(data)
-    this.issues = data
+    this.issue = data
   }
 }
 ```
 
+また、 Issue の作成 API は、 `POST` メソドで、`/repos/:owner/:repo/issues`の形式を取ります。
+ドキュメントの記載にある通り、作成する API は JSON 形式でパラメータとして付与するため、
+Issue 作成画面の作成ボタンでは以下のようなメソドをコールすると Issue 作成処理を実装できるでしょう。
 
+```js
+export default {
+  data(){
+    return {
+      form: {
+        title: "",
+        body: ""
+      }
+    }
+  },
+  methods:{
+    async submit(){
+      const url = `/repos/lec-cafe/books_nuxtjs_practice/issues/`
+      const requestBody = {
+          title: this.form.title,
+          body: this.form.body,
+      }
+      await this.$axios.post(url, requestBody, {
+        headers: {
+          Authorization: "token YOUR_GITHUB_PRESONAL_ACCESS_TOKEN"
+        }
+      })
+      this.$router.push("/")
+    }
+  }
+}
+```
 
-自分の所有するリポジトリの Issue 一覧が確認できるようになったら、以下の Issue の作成 API を使用して
-Issue 作成画面から Issue を作成できるように変更してみましょう。
-
-https://developer.github.com/v3/issues/#create-an-issue
+API を利用して Issue アプリケーションの実装ができたら、
+次は Vuex などを利用して、アプリケーションのデータフローを改善してみましょう。

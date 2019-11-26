@@ -131,7 +131,7 @@ export default {
 </script>
 ```
 
-画面上では Isseu 一覧の表示にあたり、
+画面上では Issue 一覧の表示にあたり、
 変数 `issues` に定義した配列のデータを `v-for` でループして表示しています。
 
 また Issue 作成画面 `/new` や Issue 詳細画面 `/issue/{id}` へのリンクを 
