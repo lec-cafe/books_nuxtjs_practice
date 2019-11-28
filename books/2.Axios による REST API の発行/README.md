@@ -15,10 +15,12 @@ $ npm i @nuxtjs/axios
 モジュールのインストールが終わったら、axios モジュールを有効化するために`nuxt.config.js`を修正します。
 
 ```js
-module.exports = {
+export default {
+  // ...
   modules: [
     '@nuxtjs/axios',
   ],
+  // ...
   axios: {
     baseURL: "https://api.github.com"
   }
