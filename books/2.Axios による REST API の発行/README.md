@@ -45,6 +45,8 @@ API の実行には Github の Personal Access Token が必要になるため、
 
 https://github.com/settings/tokens
 
+サンプルアプリでは、issue の操作を行うため、 token には repo 権限をチェックして作成しておいてください。 
+
 ::: tip
 Github の Personal Access Token はアカウントのパスワード以上のセキュリティ的な重要性があります。
 
@@ -71,7 +73,7 @@ export default {
     }
   },
   async mounted(){
-    const url = "/repos/lec-cafe/book_nuxt_api_state/issues"
+    const url = "/repos/lec-cafe/books_nuxtjs_practice/issues"
     const response = await this.$axios.get(url, {
       headers: {
         Authorization: "token YOUR_GITHUB_PRESONAL_ACCESS_TOKEN"
