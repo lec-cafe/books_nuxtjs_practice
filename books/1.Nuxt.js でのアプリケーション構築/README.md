@@ -129,6 +129,10 @@ export default {
   }
 }
 </script>
+
+<style>
+
+</style>
 ```
 
 画面上では Issue 一覧の表示にあたり、
@@ -168,6 +172,10 @@ export default {
   }
 }
 </script>
+
+<style>
+
+</style>
 ```
 
 変数 `issue` に定義したデータでテンプレートにデータを描画しています。
@@ -219,6 +227,10 @@ export default {
   }
 }
 </script>
+
+<style>
+
+</style>
 ```
 
 画面を作成して一覧の動きが確認できたら準備は完了です！ 
