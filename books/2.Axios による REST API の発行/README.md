@@ -61,7 +61,7 @@ Issue 一覧画面読み込み時に、 Issue 一覧取得 API をコールし�
 GitHub 上から取得した データを画面に表示する事ができます。
 
 画面読み込み時の処理は `mounted` セクションで定義できるため、
-`/pages/index.vue` にて、以下のような形で mounted 内で APIの発行処理を記述します。
+`/pages/index.vue` にて、`script` のセクションに以下のような形で mounted 内で APIの発行処理を記述します。
 
 ```js
 export default {
@@ -124,7 +124,7 @@ axios モジュールの詳細な使いかたについては [こちら](/9.2.ax
 
 
 例えば、 Issue の詳細 API は、`GET` メソドで、`/repos/:owner/:repo/issues/:issue_number` のURL形式を取るため、
-Issue 詳細画面の `pages/issue/_id/index.vue` に以下のような形で mounted を記述します。
+Issue 詳細画面の `pages/issue/_id/index.vue` で`script` のセクションに以下のような形で mounted を記述します。
 
 ```js
 export default {
