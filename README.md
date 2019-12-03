@@ -9,12 +9,12 @@ https://nuxtjs-practice.lec.cafe/
 install dependency
 
 ```bash
-$ yarn
+$ npm i 
 ```
 
 launch local server
 
 ```bash
-$ yarn run docs:dev
+$ npm run docs:dev
 ```
 
