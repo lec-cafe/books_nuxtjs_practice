@@ -23,6 +23,9 @@ Nuxt.js でアプリケーション開発を始めるためには、まず npx �
 $ npx create-nuxt-app my_issue_app
 ```
 
+npx create-nuxt-app ディレクトリ名とした時、
+project name など選択があり、Enterを推していくとフォルダがインストールされると思うのですが、これは毎回全てEnterを推してインストールして言っても良いのでしょうか。
+
 ファイルが展開されたら、作成されたフォルダ内に移動して `npm run dev` コマンドを実行すれば、
 開発用のWebサーバが立ち上がります。
 
